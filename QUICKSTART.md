@@ -2,7 +2,25 @@
 
 This guide will help you get the new SaaS version of the gym app running quickly.
 
-## ⚡ 5-Minute Setup
+## 🌐 Cloud Deployment (Easiest!)
+
+### Deploy to Render.com (5 Minutes, Free!)
+
+Get a live link without installing anything locally:
+
+1. Go to [render.com](https://render.com) and sign up (free)
+2. Click **"New +"** → **"Blueprint"**
+3. Connect this GitHub repo: `theofylaktos99/gym-app`
+4. Select branch: `copilot/recreate-saas-application`
+5. Click **"Apply"** and wait ~5 minutes
+
+**You'll get a live URL like**: `https://gym-saas-app.onrender.com`
+
+📖 **Full Guide**: See [RENDER_DEPLOY.md](RENDER_DEPLOY.md)
+
+---
+
+## 💻 Local Setup
 
 ### Prerequisites
 - Python 3.11+

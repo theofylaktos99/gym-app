@@ -4,8 +4,10 @@
 
 ## Quick Links
 
-- **🚀 New SaaS Version**: [README_SAAS.md](README_SAAS.md) - Multi-tenant, database-backed, production-ready
-- **⚡ Quick Start**: [QUICKSTART.md](QUICKSTART.md) - Get running in 5 minutes
+- **🚀 Deploy to Render**: [RENDER_DEPLOY.md](RENDER_DEPLOY.md) - Get a live link in 5 minutes!
+- **📖 New SaaS Version**: [README_SAAS.md](README_SAAS.md) - Multi-tenant, database-backed, production-ready
+- **⚡ Quick Start**: [QUICKSTART.md](QUICKSTART.md) - Get running locally in 5 minutes
+- **🏗️ Architecture**: [ARCHITECTURE.md](ARCHITECTURE.md) - System design and structure
 - **📖 Original Version**: See below for the original monolithic version
 
 ---

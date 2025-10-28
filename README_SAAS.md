@@ -2,6 +2,20 @@
 
 A modern, multi-tenant gym management SaaS application built with Flask. Designed for selling to gym owners with support for multiple gyms, members, staff, and comprehensive management features.
 
+## 🚀 Quick Deploy
+
+### Deploy to Render.com (Recommended)
+Get your app live on the internet in 5 minutes with a free account!
+
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy)
+
+**See [RENDER_DEPLOY.md](RENDER_DEPLOY.md) for complete deployment guide.**
+
+### Local Development
+See [QUICKSTART.md](QUICKSTART.md) for local setup instructions.
+
+---
+
 ## 🌟 Features
 
 ### Multi-Tenancy
@@ -110,6 +124,15 @@ docker-compose exec web bash
 
 # Seed demo data
 python run.py seed_demo_data
+```
+
+#### Option 3: Deploy to Render.com
+```bash
+# Push to GitHub and deploy
+git push origin copilot/recreate-saas-application
+
+# Then go to render.com and connect your repo
+# See RENDER_DEPLOY.md for detailed instructions
 ```
 
 ### Access
