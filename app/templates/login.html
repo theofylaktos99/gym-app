@@ -7,12 +7,22 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
 </head>
 <body>
+    <!-- Background Particles -->
+    <div class="bg-particles">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+    </div>
+
+    <!-- Language Selector -->
     <div class="language-selector">
         <a href="/?lang=en" class="lang-btn {{ 'active' if lang == 'en' else '' }}">English</a>
         <a href="/?lang=el" class="lang-btn {{ 'active' if lang == 'el' else '' }}">Ελληνικά</a>
     </div>
     
-    <div class="bg-animation"></div>
+    <!-- Floating Gym Icons -->
     <div class="gym-icons">
         <div class="gym-icon">💪</div>
         <div class="gym-icon">🏋️</div>
@@ -20,6 +30,7 @@
         <div class="gym-icon">🥊</div>
     </div>
     
+    <!-- Login Container -->
     <div class="login-container">
         <div class="login-box">
             <div class="logo">{{ t.gym_name }}</div>
@@ -27,10 +38,10 @@
             <form method="post">
                 <input type="hidden" name="language" value="{{ lang }}">
                 <div class="input-group">
-                    <input name="username" placeholder="{{ t.member_id }}" required>
+                    <input name="username" placeholder="{{ t.member_id }}" required autocomplete="username">
                 </div>
                 <div class="input-group">
-                    <input type="password" name="password" placeholder="{{ t.password }}" required>
+                    <input type="password" name="password" placeholder="{{ t.password }}" required autocomplete="current-password">
                 </div>
                 <button type="submit" class="login-btn">{{ t.enter_gym }}</button>
             </form>
