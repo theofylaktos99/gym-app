@@ -42,8 +42,15 @@ def create_app(config_name=None):
     app.register_blueprint(admin.bp)
     app.register_blueprint(api.bp)
     
-    # Create database tables
-    with app.app_context():
-        db.create_all()
+    # Create database tables only if in development mode
+    # In production, use migrations instead (flask db upgrade)
+    if config_name == 'development' or os.getenv('FLASK_ENV') == 'development':
+        with app.app_context():
+            try:
+                db.create_all()
+            except Exception:
+                # Ignore database errors during app initialization
+                # This allows the app to start even if DB is not ready
+                pass
     
     return app

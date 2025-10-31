@@ -41,8 +41,11 @@ class DevelopmentConfig(Config):
 class ProductionConfig(Config):
     """Production configuration"""
     DEBUG = False
-    SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL', 
-                                        'postgresql://localhost/gym_saas_prod')
+    # Fix DATABASE_URL from Render (postgres:// -> postgresql://)
+    database_url = os.getenv('DATABASE_URL', 'postgresql://localhost/gym_saas_prod')
+    if database_url and database_url.startswith('postgres://'):
+        database_url = database_url.replace('postgres://', 'postgresql://', 1)
+    SQLALCHEMY_DATABASE_URI = database_url
     SQLALCHEMY_ECHO = False
     
     # Security settings for production
