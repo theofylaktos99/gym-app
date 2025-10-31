@@ -13,8 +13,9 @@ pip install -r requirements.txt
 echo "🗄️  Running database migrations..."
 export FLASK_APP=run.py
 
-# Create temporary file for migration logs
+# Create temporary file for migration logs and ensure cleanup
 MIGRATION_LOG=$(mktemp)
+trap 'rm -f "$MIGRATION_LOG"' EXIT
 
 # Try to run migrations and capture both output and exit code
 set +e  # Temporarily disable exit on error
@@ -25,23 +26,23 @@ set -e  # Re-enable exit on error
 cat "$MIGRATION_LOG"  # Show the output
 
 if [ $MIGRATION_EXIT_CODE -ne 0 ]; then
-    # Check if the error is about tables already existing
-    if grep -q "table.*already exists" "$MIGRATION_LOG"; then
+    # Check if the error is about tables already existing (match SQLite/PostgreSQL format)
+    if grep -qE 'table "[^"]*" already exists|table .* already exists' "$MIGRATION_LOG"; then
         echo "⚠️  Tables already exist. Stamping database with current migration..."
-        flask db stamp head
-        echo "✅ Database stamped successfully!"
+        if flask db stamp head; then
+            echo "✅ Database stamped successfully!"
+        else
+            echo "❌ Failed to stamp database!"
+            exit 1
+        fi
     else
         echo "❌ Migration failed for an unknown reason!"
         echo "Please check the logs above for details."
-        rm -f "$MIGRATION_LOG"
         exit 1
     fi
 else
     echo "✅ Migrations applied successfully!"
 fi
-
-# Clean up temporary log file
-rm -f "$MIGRATION_LOG"
 
 # Seed demo data (only if needed)
 if [ "$SEED_DEMO_DATA" = "true" ]; then
