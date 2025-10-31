@@ -1,43 +1,67 @@
-# Gym App
+# Gym App - Modern SaaS Platform
 
-A modern, multilingual gym management web application built with Flask and Ngrok integration. This project is intended for demo/educational use only.
+🎉 **Transformed into a Production-Ready SaaS Application!** This project is now a modern multi-tenant gym management platform with advanced features and professional UI/UX.
 
-## Features
-- User authentication (demo credentials)
-- Multilingual UI (English & Greek)
-- Dashboard with member stats, gym areas, and featured workouts
-- Real-time gym area status
-- Room booking system with trainers and time slots
-- REST API endpoints for gym data and bookings
-- Ngrok integration for remote access
+## Quick Links
 
-## Quick Start
-1. **Install dependencies:**
-   ```sh
-   pip install -r requirements.txt
-   ```
-2. **Ngrok setup:**
-   - Download from [ngrok.com](https://ngrok.com/download) and add to PATH
-   - (Optional) Set your Ngrok auth token as environment variable
-3. **Run the app:**
-   - Windows Batch: `start_gym_ngrok.bat`
-   - PowerShell: `./start_gym_ngrok.ps1`
-   - Manual: `python gym_app.py`
-4. **Access:**
-   - Local: [http://localhost:5055](http://localhost:5055)
-   - Public: Ngrok URL shown in terminal
+- **🚀 Deploy to Render**: [RENDER_DEPLOY.md](RENDER_DEPLOY.md) - Get a live link in 5 minutes!
+- **📖 SaaS Documentation**: [README_SAAS.md](README_SAAS.md) - Complete platform documentation
+- **⚡ Quick Start**: [QUICKSTART.md](QUICKSTART.md) - Get running locally in 5 minutes
+- **🏗️ Architecture**: [ARCHITECTURE.md](ARCHITECTURE.md) - System design and structure
+- **📋 Migration Guide**: [MIGRATION_GUIDE.md](MIGRATION_GUIDE.md) - Migration from legacy version
+- **📊 Transformation Summary**: [SUMMARY.md](SUMMARY.md) - Complete overview of changes
 
-## Demo Credentials
-- **Member ID:** 123456
-- **Password:** 654321
+## 🌟 What's New
 
-## File Structure
-- `gym_app.py` — Main Flask app
-- `requirements.txt` — Python dependencies
-- `start_gym_ngrok.bat` / `start_gym_ngrok.ps1` — Startup scripts
-- `README_NGROK.md` — Ngrok setup guide (GR/EN)
-- `DOCUMENTATION.md` — Full documentation
-- `CODE_REVIEW.md` / `DEV_REVIEW.md` — Reviews (GR/EN)
+This main branch now contains the **modern SaaS architecture** with:
+
+- **Multi-tenant Architecture**: Support for unlimited gym owners
+- **MVC Design Pattern**: Clean separation of concerns
+- **Database-Backed**: PostgreSQL/SQLite with SQLAlchemy ORM
+- **Role-Based Access Control**: Admin, Staff, and Member roles
+- **Premium UI/UX**: Modern, responsive design with animations
+- **RESTful API**: Complete API for third-party integrations
+- **Docker Support**: Containerized deployment
+- **Bilingual Support**: Full English and Greek translations
+- **Production-Ready**: Secure, scalable, and deployment-ready
+
+## 🚀 Quick Start
+
+### Using Docker (Recommended)
+```sh
+docker-compose up
+```
+Visit http://localhost:5055
+
+### Local Development
+```sh
+# Install dependencies
+pip install -r requirements.txt
+
+# Initialize database
+python run.py init_db
+python run.py seed_demo_data
+
+# Run the application
+python run.py
+```
+
+See [QUICKSTART.md](QUICKSTART.md) for detailed instructions.
+
+## 📖 Legacy Version
+
+The original monolithic version (`gym_app.py`) has been preserved in the `old-legacy` branch.
+
+To access the legacy version:
+```sh
+git checkout old-legacy
+```
+
+The legacy version features:
+- Single-file Flask app (gym_app.py)
+- In-memory storage
+- Simple demo application
+- Ngrok integration
 
 ## License
 MIT License

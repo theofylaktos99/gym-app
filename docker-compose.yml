@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  db:
+    image: postgres:15-alpine
+    container_name: gym_saas_db
+    environment:
+      POSTGRES_DB: gym_saas
+      POSTGRES_USER: gym_user
+      POSTGRES_PASSWORD: gym_password
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U gym_user -d gym_saas"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Flask Application
+  web:
+    build: .
+    container_name: gym_saas_app
+    command: gunicorn --bind 0.0.0.0:5055 --workers 4 --timeout 120 --reload run:app
+    volumes:
+      - .:/app
+      - uploads_data:/app/uploads
+    ports:
+      - "5055:5055"
+    environment:
+      - FLASK_ENV=development
+      - DATABASE_URL=postgresql://gym_user:gym_password@db:5432/gym_saas
+      - SECRET_KEY=dev-secret-key-change-in-production
+      - JWT_SECRET_KEY=jwt-secret-key-change-in-production
+    depends_on:
+      db:
+        condition: service_healthy
+    stdin_open: true
+    tty: true
+
+volumes:
+  postgres_data:
+  uploads_data:
