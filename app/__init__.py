@@ -44,13 +44,14 @@ def create_app(config_name=None):
     
     # Create database tables only if in development mode
     # In production, use migrations instead (flask db upgrade)
-    if config_name == 'development' or os.getenv('FLASK_ENV') == 'development':
+    if config_name == 'development':
         with app.app_context():
             try:
                 db.create_all()
-            except Exception:
+            except Exception as e:
                 # Ignore database errors during app initialization
                 # This allows the app to start even if DB is not ready
-                pass
+                import logging
+                logging.warning(f"Failed to create database tables: {e}")
     
     return app
