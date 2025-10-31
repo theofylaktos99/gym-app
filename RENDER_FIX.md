@@ -49,19 +49,26 @@ if config_name == 'development' or os.getenv('FLASK_ENV') == 'development':
             pass
 ```
 
-## Previous Issue (Resolved)
+## Previous Issue (Now Permanently Fixed)
 
 ### Issue: ModuleNotFoundError
 **Error**: `ModuleNotFoundError: No module named 'gym_app'`
 
 **Root Cause**: 
-The Render service was configured with an incorrect start command trying to import `gym_app:app` instead of `run:app`.
+Despite having the correct start command in `render.yaml` and `Procfile`, Render sometimes defaults to using `gunicorn gym_app:app` based on the repository name, which caused the module not found error.
 
 **Solution**:
-The `render.yaml` and `Procfile` already have the correct start command:
-```bash
-gunicorn run:app --bind 0.0.0.0:$PORT --workers 4 --timeout 120
+Created a `gym_app.py` compatibility module that re-exports the app from `run.py`:
+```python
+from run import app
+__all__ = ['app']
 ```
+
+This provides compatibility with both entry points:
+- `gunicorn run:app` (from render.yaml/Procfile)
+- `gunicorn gym_app:app` (Render's default behavior)
+
+Both commands now work and reference the same Flask app instance.
 
 ## Files Changed (October 2025)
 
@@ -69,6 +76,7 @@ gunicorn run:app --bind 0.0.0.0:$PORT --workers 4 --timeout 120
 2. **app/__init__.py**: Conditional database initialization (development only)
 3. **.gitignore**: Removed migrations folder from ignore list
 4. **migrations/**: Added migration files for database schema
+5. **gym_app.py**: Added compatibility entry point for Render's default behavior
 
 ## Verification
 
@@ -90,9 +98,12 @@ After deploying to Render, verify the fix by:
 3. **Test the app**: Visit your Render URL and verify it loads
 
 ## Application Entry Point
-- **File**: `run.py`
+- **Primary File**: `run.py`
+- **Compatibility File**: `gym_app.py` (re-exports from run.py)
 - **App object**: `app`
-- **Correct import**: `from run import app` or `run:app` (for Gunicorn)
+- **Supported imports**: 
+  - `from run import app` or `run:app` (for Gunicorn)
+  - `from gym_app import app` or `gym_app:app` (for Gunicorn)
 
 ## Build Process on Render
 
