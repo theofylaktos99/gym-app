@@ -35,6 +35,12 @@ Render will automatically detect `render.yaml` and create:
 
 Click **"Apply"** to start deployment.
 
+**⚠️ Important**: If you're creating a service manually (not via Blueprint), ensure the Start Command is set to:
+```
+gunicorn run:app --bind 0.0.0.0:$PORT --workers 4 --timeout 120
+```
+Do NOT use `gym_app:app` - the application entry point is `run.py`.
+
 #### 3. **Wait for Deployment**
 
 - Database: ~2-3 minutes
@@ -186,6 +192,11 @@ Check logs in Render dashboard:
 2. Look for errors in build or deploy logs
 
 Common issues:
+- **ModuleNotFoundError: No module named 'gym_app'**: The start command is incorrect. The correct command is `gunicorn run:app` (not `gym_app:app`). To fix:
+  1. Go to service → **"Settings"** tab
+  2. Scroll to **"Start Command"**
+  3. Update to: `gunicorn run:app --bind 0.0.0.0:$PORT --workers 4 --timeout 120`
+  4. Save and trigger manual deploy
 - **Database not ready**: Wait 1-2 minutes after DB creation
 - **Migration failed**: Check if migrations folder exists
 - **Import errors**: Check requirements.txt has all dependencies
