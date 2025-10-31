@@ -42,8 +42,8 @@ ENV/
 *.sqlite3
 gym_dev.db
 
-# Migrations
-migrations/
+# Migrations - Keep the migrations folder but ignore version files during development
+# migrations/versions/
 
 # Uploads
 uploads/
