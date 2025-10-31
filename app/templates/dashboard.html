@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="{{ lang }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ t.gym_name }} - Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div class="logo">{{ t.gym_name }}</div>
+        <div class="user-info">
+            <a href="/member/dashboard?lang={{ 'el' if lang == 'en' else 'en' }}" class="lang-switch">
+                {{ 'EL 🇬🇷' if lang == 'en' else 'EN 🇬🇧' }}
+            </a>
+            <a href="{{ url_for('auth.logout') }}" class="logout-btn">{{ t.logout }}</a>
+        </div>
+    </div>
+    
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Welcome Section -->
+        <div class="welcome-section">
+            <h1 class="welcome-title">{{ t.welcome_title }}</h1>
+            <p class="welcome-subtitle">{{ t.welcome_subtitle }}</p>
+        </div>
+        
+        <!-- Stats Grid -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">🏋️</div>
+                <div class="stat-number">{{ stats.total_workouts }}</div>
+                <div class="stat-label">{{ t.total_workouts }}</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">🔥</div>
+                <div class="stat-number">{{ stats.calories_burned }}</div>
+                <div class="stat-label">{{ t.calories_burned }}</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">⚡</div>
+                <div class="stat-number">{{ stats.streak_days }}</div>
+                <div class="stat-label">{{ t.day_streak }}</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">👑</div>
+                <div class="stat-number">{{ stats.membership_level }}</div>
+                <div class="stat-label">{{ t.membership }}</div>
+            </div>
+        </div>
+        
+        <!-- Gym Areas Section -->
+        <div class="section-title">🏢 {{ t.gym_areas }}</div>
+        
+        <div class="areas-grid">
+            {% for area in areas %}
+            <div class="area-card">
+                <div class="area-header">
+                    <div class="area-name">
+                        <span>{{ area.icon }}</span>
+                        <span>{{ area.name[lang] }}</span>
+                    </div>
+                    <span class="area-status status-{{ area.status.lower().replace(' ', '-') }}">
+                        {{ area.status }}
+                    </span>
+                </div>
+                
+                <div class="capacity-bar">
+                    <div class="capacity-fill" style="width: {{ (area.current_users / area.capacity * 100) if area.capacity > 0 else 0 }}%"></div>
+                </div>
+                
+                <div class="capacity-text">
+                    <span>{{ area.current_users }}/{{ area.capacity }} {{ t.members }}</span>
+                    <span>{{ ((area.current_users / area.capacity * 100) if area.capacity > 0 else 0)|round|int }}%</span>
+                </div>
+                
+                {% if area.bookable %}
+                <div class="price-tag">
+                    <span>💰</span>
+                    <span>€{{ area.price_per_hour }}/hour</span>
+                </div>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+        
+        <!-- Featured Workouts Section -->
+        <div class="section-title">💪 {{ t.featured_workouts }}</div>
+        
+        <div class="areas-grid">
+            {% for workout in workouts %}
+            <div class="workout-card">
+                <div class="area-header">
+                    <div class="area-name">
+                        <span>{{ workout.icon }}</span>
+                        <span>{{ workout.name[lang] }}</span>
+                    </div>
+                    <span class="workout-difficulty difficulty-{{ workout.difficulty.lower() }}">
+                        {{ workout.difficulty }}
+                    </span>
+                </div>
+                
+                <div class="workout-info">
+                    <span>⏱️ {{ workout.duration }}</span>
+                    <span>🔥 {{ workout.calories }} cal</span>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <!-- User Bookings Section -->
+        {% if user_bookings %}
+        <div class="section-title">📅 {{ t.your_bookings }}</div>
+        
+        <div class="areas-grid">
+            {% for booking in user_bookings %}
+            <div class="booking-card">
+                <div class="area-header">
+                    <div class="area-name">{{ booking.room_name }}</div>
+                </div>
+                
+                <div class="booking-details">
+                    <div><span>📅</span><span>{{ booking.date }}</span></div>
+                    <div><span>⏰</span><span>{{ booking.time }} ({{ booking.duration }} min)</span></div>
+                    {% if booking.trainer %}
+                    <div><span>👨‍⚕️</span><span>{{ booking.trainer }}</span></div>
+                    {% endif %}
+                    <div><span>💰</span><span>€{{ booking.price }}</span></div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+    
+    <script>
+        // Smooth auto-refresh for real-time updates
+        setTimeout(() => {
+            location.reload();
+        }, 60000); // Refresh every minute
+        
+        // Add smooth scroll behavior
+        document.documentElement.style.scrollBehavior = 'smooth';
+    </script>
+</body>
+</html>
