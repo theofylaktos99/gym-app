@@ -43,7 +43,7 @@ ENV/
 gym_dev.db
 
 # Migrations
-migrations/versions/*.pyc
+migrations/
 
 # Uploads
 uploads/
